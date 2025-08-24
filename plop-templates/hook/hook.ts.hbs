@@ -1,0 +1,51 @@
+{{#if withState}}import { useState{{#if withEffect}}, useEffect{{/if}} } from 'react';{{else}}{{#if withEffect}}import { useEffect } from 'react';{{/if}}{{/if}}
+
+export function use{{pascalCase name}}() {
+{{#if withState}}
+  const [value, setValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+{{/if}}
+
+{{#if withEffect}}
+  useEffect(() => {
+    // TODO: Add your effect logic here
+    console.log('use{{pascalCase name}} mounted');
+    
+    return () => {
+      // TODO: Add cleanup logic here
+      console.log('use{{pascalCase name}} cleanup');
+    };
+  }, []);
+{{/if}}
+
+  // TODO: Add your hook logic here
+  const handle{{pascalCase name}}Action = () => {
+{{#if withState}}
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // TODO: Add your action logic here
+      console.log('{{pascalCase name}} action executed');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+{{else}}
+    console.log('{{pascalCase name}} action executed');
+{{/if}}
+  };
+
+  return {
+{{#if withState}}
+    value,
+    setValue,
+    loading,
+    error,
+{{/if}}
+    handle{{pascalCase name}}Action,
+    // TODO: Add more return values as needed
+  };
+}

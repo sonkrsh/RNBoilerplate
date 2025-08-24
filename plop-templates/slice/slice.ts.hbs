@@ -1,0 +1,101 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+// TODO: Define your data types
+interface {{pascalCase name}}Item {
+  id: string;
+  name: string;
+  // TODO: Add more properties as needed
+}
+
+interface {{pascalCase name}}State {
+  items: {{pascalCase name}}Item[];
+  selectedItem: {{pascalCase name}}Item | null;
+  isLoading: boolean;
+  error: string | null;
+  // TODO: Add more state properties as needed
+}
+
+const initialState: {{pascalCase name}}State = {
+  items: [],
+  selectedItem: null,
+  isLoading: false,
+  error: null,
+};
+
+const {{camelCase name}}Slice = createSlice({
+  name: '{{camelCase name}}',
+  initialState,
+  reducers: {
+    // Loading states
+    set{{pascalCase name}}Loading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+      if (action.payload) {
+        state.error = null;
+      }
+    },
+
+    // Success actions
+    set{{pascalCase name}}Items: (state, action: PayloadAction<{{pascalCase name}}Item[]>) => {
+      state.items = action.payload;
+      state.isLoading = false;
+      state.error = null;
+    },
+
+    add{{pascalCase name}}Item: (state, action: PayloadAction<{{pascalCase name}}Item>) => {
+      state.items.push(action.payload);
+    },
+
+    update{{pascalCase name}}Item: (state, action: PayloadAction<{{pascalCase name}}Item>) => {
+      const index = state.items.findIndex(item => item.id === action.payload.id);
+      if (index !== -1) {
+        state.items[index] = action.payload;
+      }
+    },
+
+    remove{{pascalCase name}}Item: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+      if (state.selectedItem?.id === action.payload) {
+        state.selectedItem = null;
+      }
+    },
+
+    // Selection
+    select{{pascalCase name}}Item: (state, action: PayloadAction<{{pascalCase name}}Item | null>) => {
+      state.selectedItem = action.payload;
+    },
+
+    // Error handling
+    set{{pascalCase name}}Error: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      state.isLoading = false;
+    },
+
+    clear{{pascalCase name}}Error: (state) => {
+      state.error = null;
+    },
+
+    // Reset state
+    reset{{pascalCase name}}State: () => initialState,
+  },
+});
+
+export const {
+  set{{pascalCase name}}Loading,
+  set{{pascalCase name}}Items,
+  add{{pascalCase name}}Item,
+  update{{pascalCase name}}Item,
+  remove{{pascalCase name}}Item,
+  select{{pascalCase name}}Item,
+  set{{pascalCase name}}Error,
+  clear{{pascalCase name}}Error,
+  reset{{pascalCase name}}State,
+} = {{camelCase name}}Slice.actions;
+
+export default {{camelCase name}}Slice.reducer;
+
+// Selectors
+export const select{{pascalCase name}} = (state: { {{camelCase name}}: {{pascalCase name}}State }) => state.{{camelCase name}};
+export const select{{pascalCase name}}Items = (state: { {{camelCase name}}: {{pascalCase name}}State }) => state.{{camelCase name}}.items;
+export const selectSelected{{pascalCase name}}Item = (state: { {{camelCase name}}: {{pascalCase name}}State }) => state.{{camelCase name}}.selectedItem;
+export const select{{pascalCase name}}Loading = (state: { {{camelCase name}}: {{pascalCase name}}State }) => state.{{camelCase name}}.isLoading;
+export const select{{pascalCase name}}Error = (state: { {{camelCase name}}: {{pascalCase name}}State }) => state.{{camelCase name}}.error;

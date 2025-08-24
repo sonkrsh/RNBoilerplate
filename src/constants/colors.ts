@@ -1,0 +1,14 @@
+export const PRIMARY_COLOR = '#0050A6';
+export const PRIMARY_TEXT = '#171717';
+export const SECONDARY_TEXT = '#818A9C';
+export const TEXT_LIGHT = '#D8EBFF';
+export const PRIMARY_BG = '#F3F6FF';
+export const SECONDARY_BG = '#FFFFFF';
+export const STROKE_SEPARATOR = '#E5E7EB';
+export const LINK = '#438BE9';
+export const ERROR_RED = '#CA5151';
+export const SUCCESS_GREEN = '#48995B';
+export const WARNING_AMBER = '#F3A200';
+export const WHITE = '#FFFFFF';
+export const BLACK = '#000000';
+export const TRANSPARENT = 'transparent';

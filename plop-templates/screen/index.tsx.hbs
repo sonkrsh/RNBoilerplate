@@ -1,0 +1,78 @@
+import React{{#if withRedux}}, { useEffect }{{/if}} from 'react';
+import { View, ScrollView } from 'react-native';
+{{#if withNavigation}}import type { NativeStackScreenProps } from '@react-navigation/native-stack';{{/if}}
+import { Text, Button{{#if withRedux}}, Loading{{/if}} } from '@/components/atoms';
+{{#if withRedux}}import { useAppSelector, useAppDispatch } from '@/hooks';{{/if}}
+{{#if withApiErrorBoundary}}import { ApiErrorBoundary } from '@/utilities';{{/if}}
+import { styles } from './styles';
+
+{{#if withNavigation}}
+type Props = NativeStackScreenProps<any, '{{pascalCase name}}'>;
+
+export default function {{pascalCase name}}Screen({ navigation, route }: Props) {
+{{else}}
+export default function {{pascalCase name}}Screen() {
+{{/if}}
+{{#if withRedux}}
+  const dispatch = useAppDispatch();
+  
+  // Example: Get user state
+  const user = useAppSelector(state => state.auth.user);
+  const isLoading = useAppSelector(state => state.auth.isLoading);
+
+  useEffect(() => {
+    // TODO: Add any initialization logic here
+    console.log('{{pascalCase name}}Screen mounted');
+  }, []);
+
+  if (isLoading) {
+    return <Loading text="Loading {{pascalCase name}}..." />;
+  }
+{{/if}}
+
+  return (
+{{#if withApiErrorBoundary}}
+    <ApiErrorBoundary error={undefined} refetch={() => console.log('Retrying...')}>
+{{/if}}
+      <ScrollView style={styles.container}>
+        <View style={styles.content}>
+          <Text variant="h2" weight="bold" align="center">
+            {{pascalCase name}} Screen
+          </Text>
+          
+          <Text variant="body" color="secondary" align="center" style={styles.subtitle}>
+            Welcome to the {{pascalCase name}} screen!
+          </Text>
+
+{{#if withRedux}}
+          {user && (
+            <Text variant="body" align="center" style={styles.userInfo}>
+              Hello, {user.name}!
+            </Text>
+          )}
+{{/if}}
+
+          <Button
+            title="Get Started"
+            onPress={() => {
+              console.log('{{pascalCase name}} action triggered');
+              // TODO: Add your action logic here
+            }}
+            style={styles.button}
+          />
+
+{{#if withNavigation}}
+          <Button
+            title="Go Back"
+            variant="outline"
+            onPress={() => navigation.goBack()}
+            style={styles.button}
+          />
+{{/if}}
+        </View>
+      </ScrollView>
+{{#if withApiErrorBoundary}}
+    </ApiErrorBoundary>
+{{/if}}
+  );
+}

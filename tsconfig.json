@@ -1,0 +1,36 @@
+{
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/components/*": ["components/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/store/*": ["store/*"],
+      "@/utilities/*": ["utilities/*"],
+      "@/services/*": ["services/*"],
+      "@/types/*": ["types/*"],
+      "@/constants/*": ["constants/*"],
+      "@/navigation/*": ["navigation/*"],
+      "@/screens/*": ["screens/*"],
+      "@/i18n/*": ["i18n/*"],
+      "@/assets/*": ["assets/*"]
+    },
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "src/**/*",
+    "index.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "android",
+    "ios",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

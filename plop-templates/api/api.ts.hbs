@@ -1,0 +1,76 @@
+import { baseApi } from '../store/api/baseApi';
+
+// TODO: Define your API response types
+interface {{pascalCase name}}Item {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  // TODO: Add more properties as needed
+}
+
+interface Create{{pascalCase name}}Request {
+  name: string;
+  // TODO: Add more request properties as needed
+}
+
+interface Update{{pascalCase name}}Request {
+  id: string;
+  name?: string;
+  // TODO: Add more request properties as needed
+}
+
+// Extend the base API with new endpoints
+export const {{camelCase name}}Api = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    // Get all items
+    get{{pascalCase name}}s: builder.query<{{pascalCase name}}Item[], void>({
+      query: () => '/{{camelCase name}}',
+      providesTags: ['{{pascalCase name}}'],
+    }),
+
+    // Get single item
+    get{{pascalCase name}}ById: builder.query<{{pascalCase name}}Item, string>({
+      query: (id) => `/{{camelCase name}}/${id}`,
+      providesTags: (result, error, id) => [{ type: '{{pascalCase name}}', id }],
+    }),
+
+    // Create item
+    create{{pascalCase name}}: builder.mutation<{{pascalCase name}}Item, Create{{pascalCase name}}Request>({
+      query: (data) => ({
+        url: '/{{camelCase name}}',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['{{pascalCase name}}'],
+    }),
+
+    // Update item
+    update{{pascalCase name}}: builder.mutation<{{pascalCase name}}Item, Update{{pascalCase name}}Request>({
+      query: ({ id, ...data }) => ({
+        url: `/{{camelCase name}}/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: '{{pascalCase name}}', id }],
+    }),
+
+    // Delete item
+    delete{{pascalCase name}}: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/{{camelCase name}}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['{{pascalCase name}}'],
+    }),
+  }),
+});
+
+// Export hooks for usage in components
+export const {
+  useGet{{pascalCase name}}sQuery,
+  useGet{{pascalCase name}}ByIdQuery,
+  useCreate{{pascalCase name}}Mutation,
+  useUpdate{{pascalCase name}}Mutation,
+  useDelete{{pascalCase name}}Mutation,
+} = {{camelCase name}}Api;
